@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaBell } from "react-icons/fa";
 
 const Header = () => {
   return (
@@ -11,6 +11,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <Nav.Link href="/post-item">Post an Item</Nav.Link>
+              <Nav.Link href="/category">Category</Nav.Link>
+              <Nav.Link href="/notifications">
+                <FaBell />
+              </Nav.Link>
               <Nav.Link href="/profile">
                 <FaUser /> Profile
               </Nav.Link>
