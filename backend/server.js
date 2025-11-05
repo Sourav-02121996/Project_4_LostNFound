@@ -5,7 +5,6 @@ const express = require("express");
 const cors = require("cors");
 
 // Import routes
-const healthRoutes = require("./routes/health");
 const userRoutes = require("./routes/users");
 const itemRoutes = require("./routes/items");
 const notificationRoutes = require("./routes/notifications");
@@ -17,7 +16,9 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/health", healthRoutes);
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
 app.use("/api/users", userRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/notifications", notificationRoutes);

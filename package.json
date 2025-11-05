@@ -1,9 +1,13 @@
 {
-  "name": "backend",
+  "name": "lostnfound",
   "version": "1.0.0",
   "scripts": {
-    "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "nodemon backend/server.js",
+    "dev:frontend": "cd frontend && npx vite",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "node backend/server.js",
+    "start:frontend": "cd frontend && npx vite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,6 +21,7 @@
     "mongodb": "^6.20.0"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "nodemon": "^3.1.10"
   }
 }
