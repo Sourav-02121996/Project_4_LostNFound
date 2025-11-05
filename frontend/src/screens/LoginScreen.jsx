@@ -2,16 +2,28 @@ import React, { useState } from "react";
 import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
 import "../styles/screens/LoginScreen.css";
 
+const isBrowser = typeof window !== "undefined";
+const DEFAULT_API_BASE_URL = import.meta.env.DEV
+  ? "http://localhost:4000"
+  : isBrowser
+  ? window.location.origin
+  : "http://localhost:4000";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL;
+
 const LoginScreen = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-  const [formData, setFormData] = useState({
+  const initialFormState = {
     email: "",
     password: "",
     confirmPassword: "",
     nuid: "",
     name: "",
     phone: "",
-  });
+  };
+  const [formData, setFormData] = useState(initialFormState);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -20,7 +32,11 @@ const LoginScreen = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const resetForm = () => {
+    setFormData(initialFormState);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignIn) {
       // Handle sign in
@@ -31,7 +47,40 @@ const LoginScreen = () => {
         alert("Passwords do not match!");
         return;
       }
-      console.log("Create account:", formData);
+      const payload = {
+        nuid: formData.nuid.trim(),
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+
+      try {
+        setIsSubmitting(true);
+        const response = await fetch(`${API_BASE_URL}/api/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          const message =
+            result?.message || "Something went wrong while creating the account.";
+          throw new Error(message);
+        }
+
+        alert("Account created successfully! You can now sign in.");
+        resetForm();
+        setIsSignIn(true);
+      } catch (error) {
+        alert(error.message || "Unable to create account at the moment.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -153,8 +202,13 @@ const LoginScreen = () => {
                     type="submit"
                     variant="primary"
                     className="submit-btn w-100"
+                    disabled={isSubmitting}
                   >
-                    {isSignIn ? "Sign In" : "Create Account"}
+                    {isSubmitting
+                      ? "Submitting..."
+                      : isSignIn
+                      ? "Sign In"
+                      : "Create Account"}
                   </Button>
                 </Form>
               </Card.Body>
@@ -167,4 +221,3 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-
