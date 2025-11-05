@@ -9,7 +9,7 @@
    ```bash
    npm install
    ```
-2. Copy `.env.example` to `.env` and confirm the MongoDB connection string:
+2. Copy `.env.example` to `.env` at the project root and confirm the MongoDB connection string:
    ```bash
    cp .env.example .env
    ```
