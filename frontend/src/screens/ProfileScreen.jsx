@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button, Row, Col, Badge, Modal, Spinner } from "react-bootstrap";
-import { FaTrash, FaCheckCircle, FaSearch, FaEdit, FaLock, FaMapMarkerAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaTrash, FaCheckCircle, FaSearch, FaEdit, FaLock, FaMapMarkerAlt, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import "../styles/screens/ProfileScreen.css";
 
 const isBrowser = typeof window !== "undefined";
@@ -252,6 +252,41 @@ const ProfileScreen = () => {
           <Col lg={4} className="mb-4 mb-lg-0">
             <Card className="profile-card">
               <Card.Body className="p-4">
+                <div className="profile-section account-overview">
+                  <h3 className="section-title">
+                    <FaUserCircle className="section-icon" />
+                    Account Details
+                  </h3>
+                  <p className="section-description">
+                    Keep your contact information up to date.
+                  </p>
+                  <div className="account-info">
+                    <div className="account-info-row">
+                      <span className="account-info-label">Name</span>
+                      <span className="account-info-value">
+                        {user?.name || "Not available"}
+                      </span>
+                    </div>
+                    <div className="account-info-row">
+                      <span className="account-info-label">Email</span>
+                      <span className="account-info-value">
+                        {user?.email || "Not available"}
+                      </span>
+                    </div>
+                    {user?.nuid && (
+                      <div className="account-info-row">
+                        <span className="account-info-label">NUID</span>
+                        <span className="account-info-value">{user.nuid}</span>
+                      </div>
+                    )}
+                    {user?.phone && (
+                      <div className="account-info-row">
+                        <span className="account-info-label">Phone</span>
+                        <span className="account-info-value">{user.phone}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
                 <div className="profile-section">
                   <h3 className="section-title">
                     <FaLock className="section-icon" />
@@ -494,4 +529,3 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
-
