@@ -106,7 +106,7 @@ project_3_LostNFound/
    ```bash
    cd frontend
    npm run build
-   npm run preview   # serve the build locally
+   npm run preview
    cd ..
    ```
 10. **Start both services with production settings**
