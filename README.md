@@ -155,4 +155,20 @@ project_3_LostNFound/
 - [ ] Toggle between “Searching” and “Claimed” to confirm status updates propagate.
 - [ ] Change password from the profile modal and re-authenticate with the new credential.
 
+
+## Test Data
+
+USERNAME:- 'User 0002'
+EMAIL:- 'user0002@lostnfound.edu'
+PASSWORD: 'Password123!'
+
+USERNAME:- 'User 0003'
+EMAIL:- 'user0003@lostnfound.edu'
+PASSWORD: 'Password123!'
+
+USERNAME:- 'User 0004'
+EMAIL:- 'user0004@lostnfound.edu'
+PASSWORD: 'Password123!'
 ---
+
+## AI Usage
