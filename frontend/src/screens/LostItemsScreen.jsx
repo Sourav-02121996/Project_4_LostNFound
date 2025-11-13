@@ -199,6 +199,7 @@ const LostItemsScreen = ({ apiBaseUrl = API_BASE_URL, fetchFn = fetch }) => {
         </Card>
 
         <div className="results-section">
+          {/* i like your use of the loading spinner, great design for users so they know something is happening behind the scenes */}
           {loading ? (
             <div className="text-center py-5">
               <Spinner animation="border" role="status">
@@ -254,6 +255,7 @@ const LostItemsScreen = ({ apiBaseUrl = API_BASE_URL, fetchFn = fetch }) => {
                           {Array.from(
                             { length: Math.min(5, pagination.totalPages) },
                             (_, i) => {
+                              // this logic is a bit tricky to understand. is there a max of 5 pages? maybe investigate ways to make it more readable
                               let pageNum;
                               if (pagination.totalPages <= 5) {
                                 pageNum = i + 1;
