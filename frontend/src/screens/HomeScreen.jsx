@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Spinner, Button } from "react-bootstrap";
 import Item from "../components/Item";
 import "../styles/screens/HomeScreen.css";
 import { API_BASE_URL } from "../config/api";
-
 const HomeScreen = ({ apiBaseUrl = API_BASE_URL, fetchFn = fetch }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,8 +47,39 @@ const HomeScreen = ({ apiBaseUrl = API_BASE_URL, fetchFn = fetch }) => {
 
   return (
     <div className="home-screen">
-      <Container>
-        <h1 className="home-title">Recent Lost Items</h1>
+      <section className="hero-section" aria-labelledby="home-hero-heading">
+        <Container className="hero-container">
+          <div className="hero-text">
+            <p className="hero-eyebrow">Your campus lost &amp; found ally</p>
+            <h1 id="home-hero-heading">Find and reunite with essentials faster</h1>
+            <p className="hero-description">
+              LostNFound connects good Samaritans with owners through verified posts,
+              instant alerts, and a trusted community so misplaced items get back
+              where they belong.
+            </p>
+            <div className="hero-actions">
+              <Button variant="light" size="lg" href="/items">
+                Browse Lost Items
+              </Button>
+              <Button variant="outline-light" size="lg" href="/post">
+                Post an Item
+              </Button>
+            </div>
+          </div>
+          <div className="hero-highlight" aria-live="polite">
+            <p className="hero-highlight-title">4,000+ reunions</p>
+            <p className="hero-highlight-text">
+              Every report brings the community one step closer to returning
+              precious belongings.
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      <Container as="section" aria-labelledby="recent-items-heading" className="recent-items">
+        <h2 id="recent-items-heading" className="home-title">
+          Recent Lost Items
+        </h2>
         {loading ? (
           <div className="text-center py-5">
             <Spinner animation="border" role="status">
