@@ -17,8 +17,8 @@ const Header = () => {
             <Nav className="ms-auto">
               <Nav.Link href="/items">Lost Items</Nav.Link>
               <Nav.Link href="/post">Post an Item</Nav.Link>
-              <Nav.Link href="/notifications">
-                <FaBell />
+              <Nav.Link href="/notifications" aria-label="Notifications">
+                <FaBell aria-hidden="true" />
               </Nav.Link>
               <Nav.Link href="/profile">
                 <FaUser /> Profile

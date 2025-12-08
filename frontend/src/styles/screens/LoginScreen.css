@@ -56,25 +56,32 @@
 }
 
 .login-header {
-  text-align: center;
+  text-align: left;
   margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .login-title {
   font-size: 2rem;
   font-weight: 700;
   color: var(--heading-color);
-  margin-bottom: 0.5rem;
+  margin: 0;
   background: var(--gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-align: left;
 }
 
 .login-subtitle {
   color: var(--muted-text-color);
   font-size: 0.95rem;
   margin: 0;
+  text-align: left;
+  max-width: 420px;
 }
 
 .login-toggle {
@@ -157,6 +164,7 @@
   margin-top: 1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+}
 .login-screen .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);

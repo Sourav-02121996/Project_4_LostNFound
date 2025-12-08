@@ -54,32 +54,36 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="LostNFound on Facebook"
               >
-                <FaFacebook />
+                <FaFacebook aria-hidden="true" />
               </a>
               <a
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="LostNFound on Twitter"
               >
-                <FaTwitter />
+                <FaTwitter aria-hidden="true" />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="LostNFound on Instagram"
               >
-                <FaInstagram />
+                <FaInstagram aria-hidden="true" />
               </a>
               <a
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
+                aria-label="LostNFound on LinkedIn"
               >
-                <FaLinkedin />
+                <FaLinkedin aria-hidden="true" />
               </a>
             </div>
           </Col>

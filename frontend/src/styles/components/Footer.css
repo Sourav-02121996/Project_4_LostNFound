@@ -116,9 +116,19 @@ footer .footer-contact .contact-item a:focus,
   background: none;
   background-color: transparent;
   background-image: none;
-  outline: none;
   box-shadow: none;
   border: none;
+}
+
+footer .contact-item a:focus-visible,
+footer .footer-contact .contact-item a:focus-visible,
+.footer-contact .contact-item a:focus-visible,
+.contact-item a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+  color: var(--color-surface);
+  background-color: rgba(78, 205, 196, 0.25);
 }
 
 footer .contact-item a:active,
@@ -165,6 +175,14 @@ footer .contact-item span,
   color: var(--color-surface);
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(78, 205, 196, 0.3);
+}
+
+.social-link:focus-visible {
+  background-color: var(--color-accent);
+  color: var(--color-surface);
+  outline: 3px solid var(--color-surface);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.5);
 }
 
 .footer-divider {

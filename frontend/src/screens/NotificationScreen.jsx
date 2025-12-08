@@ -353,11 +353,12 @@ const NotificationScreen = ({
                               variant="outline-danger"
                               size="sm"
                               className="delete-notification-btn"
+                              aria-label={`Delete notification for ${itemName}`}
                               onClick={() =>
                                 deleteNotification(notification._id)
                               }
                             >
-                              <FaTimes />
+                              <FaTimes aria-hidden="true" />
                             </Button>
                           </div>
                         </div>

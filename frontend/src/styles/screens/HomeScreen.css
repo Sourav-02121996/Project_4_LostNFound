@@ -4,6 +4,12 @@
   min-height: calc(100vh - 200px);
   background: var(--color-surface);
   position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.home-screen > .container {
+  width: 100%;
 }
 
 .home-screen .row {
@@ -19,24 +25,24 @@
 .home-title {
   font-size: 3.5rem;
   font-weight: 800;
-  text-align: center;
+  text-align: left;
   background: var(--gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: 2px;
-  margin: 2rem 0;
+  margin: 0 0 2rem;
   position: relative;
   animation: fadeInUp 0.8s ease-out;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 720px;
 }
 
 .home-title::after {
   content: "";
   position: absolute;
   bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   width: 100px;
   height: 4px;
   background: linear-gradient(90deg, var(--color-accent), var(--color-accent-strong));
@@ -72,7 +78,7 @@
   .home-title {
     font-size: 2.5rem;
     letter-spacing: 1px;
-    margin: 1.5rem 0;
+    margin: 0 0 1.5rem;
   }
 
   .home-title::after {
