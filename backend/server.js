@@ -8,6 +8,7 @@ import passport from "./config/passport.js";
 import userRoutes from "./routes/users.js";
 import itemRoutes from "./routes/items.js";
 import notificationRoutes from "./routes/notifications.js";
+import uploadsRoute from "./routes/uploads.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,9 @@ const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(passport.initialize());
 
+// Mount dynamic uploads route (serves images from DB) before static fallback
+app.use("/uploads", uploadsRoute);
+// Fallback: also serve any files from the uploads dir if present on disk
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.get("/health", (_req, res) => {

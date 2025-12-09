@@ -3,7 +3,7 @@ import fs from "fs";
 import { ObjectId } from "mongodb";
 import { getDb } from "../config/db.js";
 import { authenticate } from "../middleware/auth.js";
-import upload from "../middleware/upload.js";
+import upload from "../middleware/uploadMemory.js";
 
 const router = express.Router();
 
@@ -61,7 +61,7 @@ router.get("/", async (req, res, next) => {
     const totalCount = await itemsCollection.countDocuments(filter);
 
     const items = await itemsCollection
-      .find(filter)
+      .find(filter, { projection: { imageData: 0 } })
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNum)
@@ -96,7 +96,10 @@ router.get("/:id", async (req, res, next) => {
     const db = await getDb();
     const itemsCollection = db.collection("Items");
 
-    const item = await itemsCollection.findOne({ _id: new ObjectId(id) });
+    const item = await itemsCollection.findOne(
+      { _id: new ObjectId(id) },
+      { projection: { imageData: 0 } }
+    );
     if (!item) {
       return res.status(404).json({ message: "Item not found." });
     }
@@ -117,24 +120,13 @@ router.post(
         req.body;
 
       if (!name || !location || !description || !dateFound || !category) {
-        if (req.file) {
-          try {
-            fs.unlinkSync(req.file.path);
-          } catch (unlinkError) {
-            console.error("Error deleting uploaded file:", unlinkError);
-          }
-        }
         return res.status(400).json({ message: "Missing required fields." });
       }
 
       const db = await getDb();
       const itemsCollection = db.collection("Items");
 
-      let imagePath = null;
-      if (req.file) {
-        imagePath = `/uploads/${req.file.filename}`;
-      }
-
+      // Create base item without binary data first
       const newItem = {
         userId: req.userId,
         name: name.trim(),
@@ -142,14 +134,32 @@ router.post(
         description: description.trim(),
         dateFound,
         category: category.trim(),
-        image: imagePath,
+        image: null, // will set to URL if file present
+        imageData: null, // binary stored here if file present
         status: status || "searching",
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
       const result = await itemsCollection.insertOne(newItem);
-      const itemId = result.insertedId.toString();
+      const itemId = result.insertedId;
+
+      // If an image was uploaded, store its binary in the document and expose a URL
+      if (req.file && req.file.buffer) {
+        const imageDoc = {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+          filename: req.file.originalname,
+          size: req.file.size,
+        };
+
+        const imagePath = `/uploads/item/${itemId.toString()}`;
+
+        await itemsCollection.updateOne(
+          { _id: itemId },
+          { $set: { image: imagePath, imageData: imageDoc, updatedAt: new Date() } }
+        );
+      }
 
       try {
         const usersCollection = db.collection("Users");
@@ -162,7 +172,7 @@ router.post(
         if (users.length > 0) {
           const notifications = users.map((user) => ({
             userId: user._id.toString(),
-            itemId,
+            itemId: itemId.toString(),
             itemName: newItem.name,
             itemLocation: newItem.location,
             itemImage: newItem.image,
@@ -175,26 +185,24 @@ router.post(
 
           await notificationsCollection.insertMany(notifications);
           console.log(
-            `Created ${notifications.length} notifications for new item: ${itemId}`
+            `Created ${notifications.length} notifications for new item: ${itemId.toString()}`
           );
         }
       } catch (notificationError) {
         console.error("Error creating notifications:", notificationError);
       }
 
+      const returnedItem = await itemsCollection.findOne(
+        { _id: itemId },
+        { projection: { imageData: 0 } }
+      );
+
       res.status(201).json({
         message: "Item created successfully.",
         itemId: result.insertedId,
-        item: { ...newItem, _id: result.insertedId },
+        item: returnedItem,
       });
     } catch (error) {
-      if (req.file) {
-        try {
-          fs.unlinkSync(req.file.path);
-        } catch (unlinkError) {
-          console.error("Error deleting uploaded file:", unlinkError);
-        }
-      }
       next(error);
     }
   }
@@ -341,7 +349,7 @@ router.get("/user/:userId", async (req, res, next) => {
     const itemsCollection = db.collection("Items");
 
     const items = await itemsCollection
-      .find({ userId })
+      .find({ userId }, { projection: { imageData: 0 } })
       .sort({ createdAt: -1 })
       .toArray();
 
