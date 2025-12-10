@@ -41,8 +41,10 @@ Deliver a dependable campus Lost & Found workflow that:
 
 ## Tech Stack
 
-- **Backend:** Node.js 18+, Express 5, MongoDB Atlas, JWT, Multer, bcryptjs.
+- **Backend:** Node.js 18+, Express 5, MongoDB Atlas, JWT, Multer, bcryptjs, Passport-local
 - **Frontend:** React 19, Vite, React Router, React-Bootstrap, React Icons.
+- **TYPOGRAPHY:** Font 'Inter', Font 'Playfair Display'
+- **COLOR PALETTE:** Teal, Emerald Green, Turquoise 
 
 ## Repository Overview
 
